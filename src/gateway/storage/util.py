@@ -34,9 +34,9 @@ def upload(f, fs, channel, access):
         )
 
 
-    except Exception:
+    except Exception as err:
         fs.delete(fid)
-        return "Error in publishing video to the queue: gateway.storage.util.upload", 500
+        return f"Error in publishing video to the queue: gateway.storage.util.upload. {err}", 500
 
 
 
