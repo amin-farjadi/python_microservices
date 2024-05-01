@@ -30,8 +30,8 @@ def login():
 def upload():
     access, err = validate.token(request)
 
-    if err or not access:
-        return "You need to login", 401
+    if err:
+        return f"You need to login.", 401
 
     access = json.loads(access)
 
@@ -43,7 +43,7 @@ def upload():
             err = util.upload(f, fs, channel, access)
 
             if err:
-                return err
+                return f"Error: {err}"
 
         return "success!", 200
 
