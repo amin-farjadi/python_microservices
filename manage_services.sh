@@ -15,8 +15,9 @@ serviceConfigPaths=(
   ["auth"]="src/auth/manifests"
   ["rabbit"]="src/rabbit/manifests"
   ["converter"]="src/converter/manifests"
+  ["notification"]="src/notification/manifests"
 )
-services=("gateway" "auth" "rabbit" "converter")
+services=("gateway" "auth" "rabbit" "converter" "notification")
 
 list_all_services() {
     for service in "${services[@]}"; do
@@ -118,7 +119,7 @@ rebuild_service() {
   sleep 1
   echo "----------"
   echo "Stopping service $SERVICE_NAME"
-  stop_specific_service $SERVICE_NAME || { echo "Failed to stop $SERVICE_NAME"; return 1; }
+  stop_specific_service $SERVICE_NAME
   echo "----------"
   echo "Applying new configuration for $SERVICE_NAME"
   kubectl apply -f $CONFIG_PATH || { echo "Faield to apply configuration for $SERVICE_NAME"; return 1; }
