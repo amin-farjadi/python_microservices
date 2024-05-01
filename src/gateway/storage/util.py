@@ -14,8 +14,8 @@ def upload(f, fs, channel, access):
     except errors.FileExists:
         return "File has already been uploaded", 409
 
-    except Exception:
-        return "Error in saving the video: gateway.storage.util.upload", 500
+    except Exception as err:
+        return f"Error in saving the video: gateway.storage.util.upload. {err}", 500
 
     message = {
         "video_fid": str(fid),
