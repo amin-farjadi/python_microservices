@@ -48,7 +48,7 @@ def validate():
     encoded_jwt = encoded_jwt.split(" ")[1]
 
     try:
-        decoded = jwt.decode(encoded_jwt, os.environ.get("JWT_SECRET"))
+        decoded = jwt.decode(encoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"])
     except:
         return "not authorized", 403
 
