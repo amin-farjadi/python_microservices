@@ -77,6 +77,38 @@ upload_video() {
   echo "File successfully uploaded: $response"
 }
 
+download_mp3() {
+  local mp3_fid=$1
+   count_file=".download_count.txt"
+  # Check if the count file exists and create it if it doesn't
+  if [ ! -f "${count_file}" ]; then
+    echo 0 > "${count_file}"
+  fi
+  
+  # Read the current count from the file
+  count=$(cat "${count_file}")
+  count=$((count + 1))
+  
+  # Save the updated count back to the file
+  echo "${count}" > "${count_file}"
+
+  mp3_filename="mp3_download_${count}.mp3"
+  jwt=$(get_jwt)
+  BASEURL='http://mp3converter.com/download?fid='
+
+  status_code=$(curl --silent --output $mp3_filename --write-out "%{http_code}" -X GET -H "Authorization: Bearer $jwt" "$BASEURL$mp3_fid")
+
+  if [[ "$status_code" != "200" ]]; then
+    echo "Download failed. Status code: $status_code"
+    return 1
+  fi
+
+  echo "mp3 file downloaded to $mp3_filename"
+  return 0
+}
+
+
+
 if [ "$#" = "0" ]; then
   echo "Usage: $0 "
   exit 1
@@ -85,6 +117,13 @@ fi
 case "$1" in
   upload)
     upload_video
+    ;;
+  download)
+    if [ "$#" -ne 2 ]; then
+      echo "Usage: $0 download <mp3 file id (fid)>"
+      exit 1
+    fi
+    download_mp3 $2
     ;;
   *)
     echo "Invalid command: $1"

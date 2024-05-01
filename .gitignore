@@ -1,3 +1,4 @@
+.download_count.txt
 src/notification/manifests/secret.yaml
 /test/
 *.mp3
