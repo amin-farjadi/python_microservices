@@ -23,3 +23,14 @@ and are coupled using a RabbitMQ message-broker.
 The secret file for the notification service is ommitted as it contains sensitive information
 about the email service used to send notification emails.
 Other secret files contain unimportant secrets that were used for local deployment.
+
+## Bash Scripts
+
+The biggest contribution to this project is the list of bash scripts written to automate and
+speed up dealing with the microservices.
+This could be:
+- Rebuilding microservices when a bug is found in development
+- Stopping a microservice
+- Cold starting all the microservices
+- Sending test request for user authentication and getting the JWT token
+- Sending test request and uploading video file to be converted.
